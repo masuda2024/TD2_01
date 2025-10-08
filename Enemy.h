@@ -72,20 +72,12 @@ public:
 
 
 
-
-
-
 	// ワールド座標を取得
 	KamataEngine::Vector3 GetWorldPosition();
 	// AABBを取得
 	AABB GetAABB();
 	//衝突応答
 	void OnCollition(const Player* player);
-
-
-
-
-
 
 	// 初期化
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, KamataEngine::Vector3& position);

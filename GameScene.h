@@ -1,13 +1,14 @@
 #pragma once
+#include "CameraController.h"
+#include "DeathParticle.h"
+#include "Enemy.h"
+#include "Fade.h"
 #include "KamataEngine.h"
 #include "MapChipField.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "Skydome.h"
-#include "CameraController.h"
-#include "DeathParticle.h"
-#include"Fade.h"
 #include <vector>
+#include"Goal.h"
 // ゲームシーン
 
 
@@ -29,22 +30,19 @@ public:
 	// 描画
 	void Draw();
 
-	/*
+	/**/
 	// 終了フラグ
 	bool finished1_ = false;
-	*/
-
-
 	// デスフラグのgetter
-	bool IsFinished() const { return finished_; }
+	bool IsFinishedGame1() const { return finished1_; }
 
 
 
-	/*
+	/**/
 	//クリアフラグ
 	bool finished2_ = false;
 	bool IsFinishedGame2() const { return finished2_; }
-	*/
+	
 
 
 private:
@@ -111,11 +109,11 @@ private:
 
 
 
-	/*
+	/**/
 	//ゴール
 	Goal* goal_ = nullptr;
 	KamataEngine::Model* modelGoal_ = nullptr;
-	*/
+	
 
 
 
@@ -134,14 +132,9 @@ private:
 		kFadeIn, // フェードイン
 		kPlay,   // ゲームプレイ
 		kDeath,  // デス演出
+		kClear,
 		kFadeOut,// フェードアウト
-		//kClear,
-		
-		// kFadeOut2,
-		
-
-
-
+		kFadeOut2,
 	};
 
 	// ゲームの現在フェーズから開始
@@ -149,10 +142,7 @@ private:
 	
 	// フェーズの切り替え
 	void ChangePhase();
-	
-	// 終了フラグ
-	bool finished_ = false;
-	
+
 	// フェード
 	Fade* fade_ = nullptr;
 

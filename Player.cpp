@@ -15,11 +15,6 @@ using namespace MathUtility;
 
 
 
-
-
-
-
-
 void Player::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& position) 
 {
 	// NULLポイントチェック
@@ -589,7 +584,20 @@ AABB Player::GetAABB()
 	return aabb;
 }
 
-// 衝突応答
+AABB2 Player::GetAABB2()
+{
+	KamataEngine::Vector3 worldPos = GetWorldPosition();
+
+	AABB2 aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
+
+// 敵との衝突応答
 void Player::OnCollition(const Enemy* enemy)
 {
 	(void)enemy;
@@ -600,4 +608,12 @@ void Player::OnCollition(const Enemy* enemy)
 	
 	// ジャンプ開始
 	//velocity_ += KamataEngine::Vector3(0, kJumpAcceleration, 0);
+}
+
+// ゴールとの衝突応答
+void Player::OnCollitionGoal(const Goal* goal) 
+{
+	(void)goal;
+	// ゴールフラグを立てる
+	isGoal_ = true;
 }

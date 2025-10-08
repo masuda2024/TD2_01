@@ -1,23 +1,26 @@
-﻿#include "Tutorial.h"
+﻿#include "GameOver.h"
 #include "MapChipField.h"
-#include "Player.h"
+#include "Skydome.h"
 
 using namespace KamataEngine;
 
-void Tutorial::Initialize() 
+void GameOver::Initialize()
 {
 	// 3Dモデルの生成
 	// model_ = Model::CreateFromOBJ("titleFont");
 	// modelPlayer_ = Model::CreateFromOBJ("player");
-
+	//modelGameOver_ = Model::CreateFromOBJ("GAMEOVERFont");
+	//model_ = Model::CreateFromOBJ("SPACE_UI");
+	
+	
 	// スカイドームの生成
 	modelskydome_ = Model::CreateFromOBJ("skydome", true);
 	skydome_ = new Skydome();
 
-	//modelTutorialUI_ = Model::CreateFromOBJ("TutorialUI");
-
 	// カメラの初期化
 	camera_.Initialize();
+	
+	
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
 	worldTransformPlayer_.Initialize();
@@ -28,13 +31,13 @@ void Tutorial::Initialize()
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
-void Tutorial::Update() 
+void GameOver::Update()
 {
-	switch (phase_)
+	switch (phase_) 
 	{
 	case Phase::kMain:
 		// チュートリアルシーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_E))
+		if (Input::GetInstance()->PushKey(DIK_SPACE))
 		{
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
@@ -44,7 +47,7 @@ void Tutorial::Update()
 	case Phase::kFadeIn:
 		// フェード
 		fade_->Update();
-		if (fade_->IsFinished()) 
+		if (fade_->IsFinished())
 		{
 			phase_ = Phase::kMain;
 		}
@@ -54,36 +57,37 @@ void Tutorial::Update()
 		fade_->Update();
 		if (fade_->IsFinished())
 		{
-			finishedTutorial_ = true;
+			finishedGameOver_ = true;
 		}
 		break;
 	}
 }
 
-void Tutorial::Draw() 
+void GameOver::Draw() 
 {
 	// 3Dモデル描画前処理
 	//Model::PreDraw();
 
 	// ここに3Dモデルインスタンスの描画処理を記述する
-	// model_->Draw(worldTransform_, camera_);
+	//modelGameOver_->Draw(worldTransform_, camera_);
+	//model_->Draw(worldTransform_, camera_);
 	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
-	modelskydome_->Draw(worldTransform_, camera_);
-	//modelTutorialUI_->Draw(worldTransform_, camera_);
+	//modelskydome_->Draw(worldTransformPlayer_, camera_);
+
 	// 3Dモデル描画後処理
-	Model::PostDraw();
+	//Model::PostDraw();
 	// フェード
-	fade_->Draw();
+	//fade_->Draw();
 }
 
-Tutorial::~Tutorial() 
+GameOver::~GameOver() 
 {
 	// モデル
+	//delete modelGameOver_;
 	delete model_;
-	delete modelskydome_;
-	delete modelPlayer_;
-	//delete modelTutorialUI_;
+	//delete modelPlayer_;
+	delete skydome_;
 	// フェード
 	delete fade_;
 }

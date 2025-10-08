@@ -157,7 +157,7 @@ void GameScene::Initialize()
 
 
 //ブロック
-void GameScene::GenerateBlocks() 
+void GameScene::GenerateBlocks()
 {
 	// 要素数
 	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
@@ -179,8 +179,9 @@ void GameScene::GenerateBlocks()
 	{
 		for (uint32_t j = 0; j < numBlockHorizontal; j++) 
 		{
-			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) // 1マス分にボックスの形にしたいなら(i + j)にする
-			{
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock)
+			{ 
+                // 1マス分にボックスの形にしたいなら(i + j)にする
 				WorldTransform* worldTransform = new WorldTransform();
 				worldTransform->Initialize();
 				worldTransformBlocks_[i][j] = worldTransform;
@@ -302,7 +303,15 @@ void GameScene::Update()
 		    fade_->Update();
 		    if (fade_->IsFinished())
 			{
-			    finished_ = true;
+			    finished1_ = true;
+		    }
+		    break;
+	    case Phase::kFadeOut2:
+		    // フェード
+		    fade_->Update();
+		    if (fade_->IsFinished2()) 
+			{
+			    finished2_ = true;
 		    }
 		    break;
 	}
@@ -477,7 +486,7 @@ void GameScene::CheckAllCollisions()
 
 
 
-//フェーズ
+// フェーズ
 void GameScene::ChangePhase()
 {
 
@@ -486,7 +495,7 @@ void GameScene::ChangePhase()
 	case Phase::kPlay:
 		// ゲームプレイフェーズの処理
 
-		if (player_->IsDead() == true)
+		if (player_->IsDead() == true) 
 		{
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kDeath;
@@ -497,21 +506,31 @@ void GameScene::ChangePhase()
 			// パーティクル
 			deathParticles_ = new DeathParticle();
 			deathParticles_->Initialize(modelParticle_, &camera_, deathParticlesPosition);
+		} else if (player_->IsGoal() == true)
+		{
+			finished2_ = true;
+			phase_ = Phase::kClear;
+			// 自キャラの座標を取得
+			// const KamataEngine::Vector3 deathParticlesPosition = player_->GetWorldPosition();
 		}
 
 		break;
 
 	case Phase::kDeath:
 		// デス演出フェーズの処理
-		
 
 		if (deathParticles_)
 		{
-			//シーン終了
-			finished_ = true;
+			// シーン終了
+			finished1_ = true;
 		}
-		
-		
+
+		break;
+
+	case Phase::kClear:
+
+		finished2_ = true;
+
 		break;
 	}
 }

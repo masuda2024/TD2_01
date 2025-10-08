@@ -5,6 +5,7 @@
 
 class MapChipField;
 class Enemy;
+class Goal;
 class Player 
 {
 public:
@@ -14,6 +15,12 @@ public:
 	bool isDead_ = false;
 	// デスフラグのgetter
 	bool IsDead() const { return isDead_; }
+
+	// ゴールフラグ
+	bool isGoal_ = false;
+	bool IsGoal() const { return isGoal_; }
+
+
 
 
 	// キャラクターの当たり判定サイズ
@@ -111,13 +118,18 @@ public:
 
 	//ワールド座標を取得
 	KamataEngine::Vector3 GetWorldPosition();
+	
+	
 	//AABBを取得
 	AABB GetAABB();
+	AABB2 GetAABB2();
+	
 	//衝突応答
 	void OnCollition(const Enemy* enemy);
 
 
-
+	// ゴールとの衝突応答
+	void OnCollitionGoal(const Goal* goal);
 
 	// 初期化
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, KamataEngine::Vector3& position);

@@ -2,6 +2,7 @@
 #include"TitleScene.h"
 #include "Player.h"
 #include "MapChipField.h"
+#include "Skydome.h"
 
 using namespace KamataEngine;
 
@@ -10,6 +11,7 @@ void TitleScene::Initialize()
 {
 	//3Dモデルの生成
 	model_ = Model::CreateFromOBJ("titleFont");
+	
 	//modelPlayer_ = Model::CreateFromOBJ("player");
 	//カメラの初期化
 	camera_.Initialize();
@@ -17,7 +19,14 @@ void TitleScene::Initialize()
 	worldTransform_.Initialize();
 	worldTransformPlayer_.Initialize();
 
+	// スカイドームの生成
+	modelskydome_ = Model::CreateFromOBJ("skydome", true);
+	skydome_ = new Skydome();
 
+	// スカイドームの初期化
+	skydome_->Initialize(modelskydome_, textureHandle_, &camera_);
+	
+	
 
 
 	//フェード
@@ -40,6 +49,16 @@ void TitleScene::Update()
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}
+		// Tを押してチュートリアルシーンへ分岐
+		if (Input::GetInstance()->PushKey(DIK_T)) 
+		{
+			// フェードアウト開始
+			phase_ = Phase::kFadeOut;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
+
+			finished2_ = true;
+		}
+
 		break;
 	case Phase::kFadeIn:
 		//フェード
@@ -72,6 +91,7 @@ void TitleScene::Update()
 	// 自キャラの更新
 	player_->Update();
     */
+	skydome_->Update();
 }
 
 void TitleScene::Draw() 
@@ -85,7 +105,7 @@ void TitleScene::Draw()
 	//ここに3Dモデルインスタンスの描画処理を記述する
 	model_->Draw(worldTransform_, camera_);
 	//modelPlayer_->Draw(worldTransformPlayer_, camera_);
-
+	modelskydome_->Draw(worldTransformPlayer_, camera_);
 	// 3Dモデル描画後処理
 	Model::PostDraw();
 	// フェード
@@ -99,5 +119,5 @@ TitleScene::~TitleScene()
 	//delete modelPlayer_;
 	// フェード
 	delete fade_;
-
+	delete skydome_;
 }

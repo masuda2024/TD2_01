@@ -1,6 +1,6 @@
-#include"Skydome.h"
-#include"GameScene.h"
-#include"cassert"
+#include "Skydome.h"
+#include "GameScene.h"
+#include "cassert"
 using namespace KamataEngine;
 
 void Skydome::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera)
@@ -18,17 +18,10 @@ void Skydome::Initialize(KamataEngine::Model* model, uint32_t textureHandle, Kam
 	worldTransform_.Initialize();
 }
 
-
-
-void Skydome::Update()
+void Skydome::Update() 
 {
 	// 行列を定数バッファに転送
 	worldTransform_.TransferMatrix();
 }
 
-
-
-void Skydome::Draw()
-{
-	model_->Draw(worldTransform_, *camera_); 	
-}
+void Skydome::Draw() { model_->Draw(worldTransform_, *camera_); }
