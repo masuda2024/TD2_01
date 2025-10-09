@@ -34,7 +34,7 @@ void GameClear::Update()
 	switch (phase_) 
 	{
 	case Phase::kMain:
-		// チュートリアルシーンの終了条件
+		// シーンの終了条件
 		if (Input::GetInstance()->PushKey(DIK_SPACE)) 
 		{
 			// フェードアウト開始

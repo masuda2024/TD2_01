@@ -9,8 +9,8 @@ void GameOver::Initialize()
 	// 3Dモデルの生成
 	// model_ = Model::CreateFromOBJ("titleFont");
 	// modelPlayer_ = Model::CreateFromOBJ("player");
-	//modelGameOver_ = Model::CreateFromOBJ("GAMEOVERFont");
-	//model_ = Model::CreateFromOBJ("SPACE_UI");
+	// modelGameOver_ = Model::CreateFromOBJ("GAMEOVERFont");
+	// model_ = Model::CreateFromOBJ("SPACE_UI");
 	
 	
 	// スカイドームの生成
@@ -36,7 +36,7 @@ void GameOver::Update()
 	switch (phase_) 
 	{
 	case Phase::kMain:
-		// チュートリアルシーンの終了条件
+		// シーンの終了条件
 		if (Input::GetInstance()->PushKey(DIK_SPACE))
 		{
 			// フェードアウト開始
@@ -66,14 +66,16 @@ void GameOver::Update()
 void GameOver::Draw() 
 {
 	// 3Dモデル描画前処理
-	//Model::PreDraw();
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	Model::PreDraw(dxCommon->GetCommandList());
 
 	// ここに3Dモデルインスタンスの描画処理を記述する
 	//modelGameOver_->Draw(worldTransform_, camera_);
 	//model_->Draw(worldTransform_, camera_);
 	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
-	//modelskydome_->Draw(worldTransformPlayer_, camera_);
+	modelskydome_->Draw(worldTransformPlayer_, camera_);
 
 	// 3Dモデル描画後処理
 	//Model::PostDraw();

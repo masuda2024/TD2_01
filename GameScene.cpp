@@ -58,7 +58,7 @@ void GameScene::Initialize()
 	for (int32_t i = 0; i < 3; i++)
 	{
 		Enemy* newEnemy = new Enemy();
-		KamataEngine::Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(32 + i, 16 + i);
+		KamataEngine::Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(32, 19);
 	    newEnemy->Initialize(modelEnemy_, &camera_, enemyPosition);
 	
 	
