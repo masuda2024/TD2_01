@@ -1,7 +1,6 @@
 #include "GameScene.h"
 #include "CameraController.h"
 #include "MyMath.h"
-#include "MapChipField.h"
 
 using namespace KamataEngine;
 
@@ -17,7 +16,7 @@ void GameScene::Initialize() {
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
 	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
 	modelDeathParticle_ = Model::CreateFromOBJ("deathParticle", true);
-	modelGrab_ = Model::CreateFromOBJ("enemy", true);
+	modelGrab_ = Model::CreateFromOBJ("grab", true);
 	// マップチップフィールドの生成
 	mapChipField_ = new MapChipField;
 	// マップチップフィールドの初期化
@@ -60,21 +59,23 @@ void GameScene::Initialize() {
 	cameraController_->Initialize();
 	cameraController_->SetTarget(player_);
 
-	CameraController::Rect cameraAera = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	CameraController::Rect cameraAera = {12.0f, 12.0f, 6.0f, 100 - 6.0f};
 	cameraController_->SetMovableArea(cameraAera);
 
 	// 仮生成パーティクル
-	//deathParticles_ = new DeathParticles;
-	//deathParticles_->Initialize(modelDeathParticle_, &camera_, playerPosition);
+	deathParticles_ = new DeathParticles;
+	deathParticles_->Initialize(modelDeathParticle_, &camera_, playerPosition);
 
 	// つかむ場所のマップチップ番号リスト
 	std::vector<KamataEngine::Vector2> grabTilePositions = {
 	    {12, 32}, // 1つ目
 	    {16, 28}, // 2つ目
-	    {8,  25}  // 3つ目
+	    {12, 25}, // 3つ目
+	    {14, 23}, // 4つ目
+	    {10, 20}  //  5つ目
 	};
 
-	// ゴールの初期化
+	// grapの初期化
 	for (const auto& tilePos : grabTilePositions) {
 		Grab* grabGoal = new Grab();
 		Vector3 grabPosition = mapChipField_->GetMapChipPositionByIndex(static_cast<uint32_t>(tilePos.x), static_cast<uint32_t>(tilePos.y));
@@ -304,7 +305,7 @@ void GameScene::Draw() {
 	for (Enemy* enemy : enemies_) {
 		enemy->Draw();
 	}
-	
+
 	for (Grab* goal : grabs_) {
 		goal->Draw(&camera_);
 	}
