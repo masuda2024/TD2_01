@@ -1,4 +1,5 @@
-﻿#include "GameOver.h"
+﻿/*
+#include "GameOver.h"
 #include "MapChipField.h"
 #include "Skydome.h"
 
@@ -93,3 +94,4 @@ GameOver::~GameOver()
 	// フェード
 	delete fade_;
 }
+*/

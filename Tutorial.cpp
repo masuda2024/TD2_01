@@ -1,6 +1,8 @@
-﻿#include "Tutorial.h"
+﻿/*
+#include "Tutorial.h"
 #include "MapChipField.h"
 #include "Player.h"
+#include "Fade.h"
 
 using namespace KamataEngine;
 
@@ -87,3 +89,4 @@ Tutorial::~Tutorial()
 	// フェード
 	delete fade_;
 }
+*/

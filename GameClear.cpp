@@ -1,4 +1,5 @@
-﻿#include "GameClear.h"
+﻿/*
+#include "GameClear.h"
 #include "MapChipField.h"
 #include "Skydome.h"
 
@@ -89,3 +90,4 @@ GameClear::~GameClear()
 	// フェード
 	delete fade_;
 }
+*/

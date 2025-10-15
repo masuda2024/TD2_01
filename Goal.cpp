@@ -1,70 +1,30 @@
 ﻿#include "Goal.h"
-#include "GameScene.h"
-#include "cassert"
-#include <algorithm>
-#include <numbers>
+#include "MyMath.h"
+#include "Player.h"
+#include <cassert>
 
-#define NOMINMAX
-#include "MapChipField.h"
-#include <algorithm>
-
-using namespace KamataEngine;
-using namespace MathUtility;
-
-KamataEngine::Vector3 Goal::GetWorldPosition() 
-{
-	// ワールド座標を入れる変数
-	KamataEngine::Vector3 worldPos;
-	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldPos.x = worldTransform_.matWorld_.m[3][0];
-	worldPos.y = worldTransform_.matWorld_.m[3][1];
-	worldPos.z = worldTransform_.matWorld_.m[3][2];
-
-	return worldPos;
-}
-
-AABB2 Goal::GetAABB2()
-{
-	KamataEngine::Vector3 worldPos = GetWorldPosition();
-
-	AABB2 aabb;
-
-	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
-	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
-
-	return aabb;
-}
-
-void Goal::OnCollitionGoal(const Player* player) { (void)player; }
-
-void Goal::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, KamataEngine::Vector3& position)
-{
-	// NULLポイントチェック
+void Grab::Initialize(const KamataEngine::Vector3& position, const KamataEngine::Vector3& size, KamataEngine::Model* model) {
 	assert(model);
-
 	model_ = model;
-
-	// textureHandle_ = textureHandle;
-
-	worldTransform_.translation_ = position;
-
-	camera_ = camera;
-
-	// 速度を設定する
-	// velocity_ = {-kWalkSpeed, 0, 0};
-
-	// walkTimer_ = 0.0f;
-
-	worldTransform_.rotation_.y = std::numbers::pi_v<float> / -2.0f;
-
+	position_ = position;
+	size_ = size;
 	worldTransform_.Initialize();
+	worldTransform_.translation_ = position_;
 }
 
-void Goal::Update()
-{
-	// プレイヤーの座標の計算
+void Grab::Update() {
+	worldTransform_.translation_ = position_;
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix();
 }
 
-void Goal::Draw() { model_->Draw(worldTransform_, *camera_); }
+void Grab::Draw(KamataEngine::Camera* camera) { model_->Draw(worldTransform_, *camera); }
+
+AABB Grab::GetAABB() const {
+	return AABB{
+	    {position_.x - size_.x * 0.5f, position_.y - size_.y * 0.5f, position_.z - size_.z * 0.5f},
+
+	    {position_.x + size_.x * 0.5f, position_.y + size_.y * 0.5f, position_.z + size_.z * 0.5f}
+    };
+}
+// 衝突判定はプレイヤー側で実施

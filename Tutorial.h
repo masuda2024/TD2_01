@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿/*
+#pragma once
 #include "KamataEngine.h"
 
 #include "Fade.h"
@@ -16,11 +17,12 @@ public:
 	// 終了フラグ
 	bool finishedTutorial_ = false;
 	// デスフラグのgetter
-	bool IsFinishedTutorial() const { return finishedTutorial_; }
+	bool IsFinishedT() const { return finishedTutorial_; }
 
 	void Initialize();
 	void Update();
 	void Draw();
+
 
 	// デストラクタ
 	~Tutorial();
@@ -61,3 +63,4 @@ private:
 	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
 };
+*/

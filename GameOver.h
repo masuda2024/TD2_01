@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿/*
+#pragma once
 #include "KamataEngine.h"
 
 #include "Fade.h"
@@ -62,4 +63,4 @@ private:
 	Fade* fade_ = nullptr;
 	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
-};
+};*/

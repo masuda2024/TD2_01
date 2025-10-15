@@ -1,123 +1,60 @@
-/**/
-#include"TitleScene.h"
-#include "Player.h"
-#include "MapChipField.h"
-#include "Skydome.h"
+#include "TitleScene.h"
 
 using namespace KamataEngine;
 
+TitleScene::~TitleScene() { delete fade_; }
 
-void TitleScene::Initialize()
-{
-	//3Dモデルの生成
+void TitleScene::Initialize() {
+	// 3Dモデル
 	model_ = Model::CreateFromOBJ("titleFont");
-	
-	//modelPlayer_ = Model::CreateFromOBJ("player");
-	//カメラの初期化
+	modelPlayer_ = Model::CreateFromOBJ("player");
+
+	// カメラ初期化
 	camera_.Initialize();
-	//ワールド変換の初期化
+
 	worldTransform_.Initialize();
 	worldTransformPlayer_.Initialize();
 
-	// スカイドームの生成
-	modelskydome_ = Model::CreateFromOBJ("skydome", true);
-	skydome_ = new Skydome();
-
-	// スカイドームの初期化
-	skydome_->Initialize(modelskydome_, textureHandle_, &camera_);
-	
-	
-
-
-	//フェード
 	fade_ = new Fade();
 	fade_->Initialize();
-	fade_->Start(Fade::Status::FadeIn, 1.0f);
 
+	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
-void TitleScene::Update()
-{
+void TitleScene::Update() {
 
-	switch (phase_)
-	{
+	switch (phase_) {
 	case Phase::kMain:
-		// タイトルシーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_SPACE))
-		{
-			//フェードアウト開始
+		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}
-		// Tを押してチュートリアルシーンへ分岐
-		if (Input::GetInstance()->PushKey(DIK_T)) 
-		{
-			// フェードアウト開始
-			phase_ = Phase::kFadeOut;
-			fade_->Start(Fade::Status::FadeOut, 1.0f);
-
-			finished2_ = true;
-		}
-
 		break;
 	case Phase::kFadeIn:
-		//フェード
 		fade_->Update();
-		if (fade_->IsFinished())
-		{
+		if (fade_->isFinished()) {
 			phase_ = Phase::kMain;
 		}
 		break;
 	case Phase::kFadeOut:
-		// フェード
 		fade_->Update();
-		if (fade_->IsFinished())
-		{
+		if (fade_->isFinished()) {
 			finished_ = true;
 		}
-		break;
 	}
-
-	/*
-	// タイトルシーンの終了条件
-	if (Input::GetInstance()->PushKey(DIK_SPACE)) 
-	{
-		finished_ = true;
-	}
-	// フェード
-	fade_->Update();
-    */
-	/*
-	// 自キャラの更新
-	player_->Update();
-    */
-	skydome_->Update();
 }
 
-void TitleScene::Draw() 
-{
-	// DirectXCommonインスタンスの取得
+void TitleScene::Draw() {
+
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	// 3Dモデル描画前処理
 	Model::PreDraw(dxCommon->GetCommandList());
 
-	//ここに3Dモデルインスタンスの描画処理を記述する
 	model_->Draw(worldTransform_, camera_);
-	//modelPlayer_->Draw(worldTransformPlayer_, camera_);
-	modelskydome_->Draw(worldTransformPlayer_, camera_);
-	// 3Dモデル描画後処理
-	Model::PostDraw();
-	// フェード
-	fade_->Draw();
-}
 
-TitleScene::~TitleScene()
-{
-	//モデル 
-	delete model_;
-	//delete modelPlayer_;
-	// フェード
-	delete fade_;
-	delete skydome_;
+	modelPlayer_->Draw(worldTransformPlayer_, camera_);
+
+	Model::PostDraw();
+
+	fade_->Draw();
 }
