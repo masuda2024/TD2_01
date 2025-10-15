@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "CameraController.h"
 #include "MyMath.h"
+#include "MapChipField.h"
 
 using namespace KamataEngine;
 
@@ -20,7 +21,7 @@ void GameScene::Initialize() {
 	// マップチップフィールドの生成
 	mapChipField_ = new MapChipField;
 	// マップチップフィールドの初期化
-	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+	mapChipField_->LoadMapchipCsv("Resources/blocks.csv");
 
 	// 自キャラ生成
 	player_ = new Player();
