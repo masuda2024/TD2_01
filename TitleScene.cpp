@@ -25,22 +25,35 @@ void TitleScene::Update() {
 
 	switch (phase_) {
 	case Phase::kMain:
+		//スペースキーでゲーム
 		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}
+
+		//Tキーを押してチュートリアル
+		if (Input::GetInstance()->PushKey(DIK_T)) {
+			phase_ = Phase::kFadeOut;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
+		}
+
+
 		break;
 	case Phase::kFadeIn:
 		fade_->Update();
 		if (fade_->isFinished()) {
 			phase_ = Phase::kMain;
 		}
+		
+
 		break;
 	case Phase::kFadeOut:
 		fade_->Update();
 		if (fade_->isFinished()) {
 			finished_ = true;
+			finished2_ = true;
 		}
+		break;
 	}
 }
 

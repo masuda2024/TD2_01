@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <KamataEngine.h>
 
 #include "Fade.h"
@@ -23,11 +23,20 @@ public:
 	KamataEngine::WorldTransform worldTransform_;
 
 	KamataEngine::WorldTransform worldTransformPlayer_;
-
+	//タイトルからゲーム
 	bool isFinished() const { return finished_; }
+	//タイトルからチュートリアル
+	bool isFinished2() const { return finished2_; }
+	
 
 private:
+	
+
+	// タイトルからゲーム
 	bool finished_ = false;
+	// タイトルからチュートリアル
+	bool finished2_ = false;
+
 
 	Fade* fade_ = nullptr;
 

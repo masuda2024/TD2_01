@@ -1,4 +1,4 @@
-﻿/*
+﻿/**/
 #pragma once
 #include "KamataEngine.h"
 
@@ -9,58 +9,42 @@
 class Tutorial {
 public:
 	enum class Phase {
-		kFadeIn,  // フェードイン
-		kMain,    // メイン部
-		kFadeOut, // フェードアウト
+		kFadeIn,
+		kMain,
+		kFadeOut,
 	};
-
-	// 終了フラグ
-	bool finishedTutorial_ = false;
-	// デスフラグのgetter
-	bool IsFinishedT() const { return finishedTutorial_; }
 
 	void Initialize();
 	void Update();
 	void Draw();
-
-
-	// デストラクタ
 	~Tutorial();
-	// void ChangeScene();
-	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_; // stdでエラーが起きたらKamataEngine::をいれる
 
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
+	KamataEngine::Model* model_;
+	KamataEngine::Model* modelPlayer_;
 
-	// スプライト
-	KamataEngine::Sprite* sprite_ = nullptr;
+	KamataEngine::Camera camera_;
 
-	// 自キャラ
-	Player* player_ = nullptr;
+	KamataEngine::WorldTransform worldTransform_;
 
-	// マップチップフィールド
-	MapChipField* mapChipField_;
-
+	KamataEngine::WorldTransform worldTransformPlayer_;
+	
 	// 天球
 	KamataEngine::Model* modelskydome_ = nullptr;
 	Skydome* skydome_ = nullptr;
 
-private:
-	// 3Dモデルデータ
-	KamataEngine::Model* model_ = nullptr;
+	// チュートリアルからタイトル
+	bool isFinishedTutorial() const { return finishedTutorial_; }
 
-	KamataEngine::Model* modelTutorialUI_ = nullptr;
-	// モデルプレイヤー
-	KamataEngine::Model* modelPlayer_ = nullptr;
-	// カメラ
-	KamataEngine::Camera camera_;
-	// ワールドトランスフォーム
-	KamataEngine::WorldTransform worldTransform_;
-	KamataEngine::WorldTransform worldTransformPlayer_;
+
+private:
+
+    //チュートリアルからタイトル
+	bool finishedTutorial_ = false;
+
+   
 
 	// フェード
 	Fade* fade_ = nullptr;
 	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
 };
-*/

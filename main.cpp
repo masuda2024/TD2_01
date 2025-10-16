@@ -2,12 +2,13 @@
 #include "KamataEngine.h"
 #include "TitleScene.h"
 #include <Windows.h>
-
+#include"Tutorial.h"
 enum class Scene {
 
 	kUnknow = 0,
 
 	kTitle,
+	kTutorial,
 	kGame,
 };
 
@@ -24,6 +25,10 @@ void DrawScene();
 GameScene* gameScene = nullptr;
 
 TitleScene* titleScene = nullptr;
+
+Tutorial* tutorial = nullptr;
+
+
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -42,6 +47,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	titleScene = new TitleScene;
 	titleScene->Initialize();
+
+
+	/**/
+	tutorial = new Tutorial;
+	tutorial->Initialize();
+	
+
+
 
 	// メインループ
 	while (true) {
@@ -80,7 +93,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 void ChangeScene() {
 	switch (scene) {
 	case Scene::kTitle:
-		if (titleScene->isFinished()){
+		if (titleScene->isFinished()) {
 			// scene変化
 			scene = Scene::kGame;
 			// 旧scene開放
@@ -90,7 +103,51 @@ void ChangeScene() {
 			gameScene = new GameScene;
 			gameScene->Initialize();
 		}
+		/**/
+		
+		if (titleScene->isFinished2()){
+			// scene変化
+			scene = Scene::kTutorial;
+			// 旧scene開放
+			delete titleScene;
+			titleScene = nullptr;
+			// 新scene生成と初期化
+			tutorial = new Tutorial;
+			tutorial->Initialize();
+		}
+		
+		
 		break;
+
+
+	/**/
+
+	case Scene::kTutorial:
+		if (tutorial->isFinishedTutorial()){
+		    // scene変化
+		    scene = Scene::kTitle;
+		    // 旧scene開放
+		    delete tutorial;
+		    tutorial = nullptr;
+		    // 新scene生成と初期化
+		    titleScene = new TitleScene;
+			titleScene->Initialize();
+		}
+		break;
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
 
 	case Scene::kGame:
 		// ゲームシーンの更新処理
@@ -113,6 +170,14 @@ void UpdateScene() {
 	case Scene::kTitle:
 		titleScene->Update();
 		break;
+
+
+		/**/
+	case Scene::kTutorial:
+		tutorial->Update();
+		break;
+		
+
 	case Scene::kGame:
 		gameScene->Update();
 		break;
@@ -126,7 +191,13 @@ void DrawScene() {
 			titleScene->Draw();
 		}
 		break;
-
+		/**/
+	case Scene::kTutorial:
+		if (tutorial) {
+			tutorial->Draw();
+		}
+		break;
+		
 	case Scene::kGame:
 		if (gameScene) {
 			gameScene->Draw();

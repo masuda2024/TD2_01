@@ -20,6 +20,7 @@ public:
 	void Stop();
 
 	bool isFinished() const;
+	
 
 private:
 	uint32_t textureHandle_ = 0;

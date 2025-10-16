@@ -1,61 +1,49 @@
-﻿/*
+﻿/**/
 #include "Tutorial.h"
-#include "MapChipField.h"
+//#include "MapChipField.h"
 #include "Player.h"
-#include "Fade.h"
+//#include "Fade.h"
 
 using namespace KamataEngine;
 
+Tutorial::~Tutorial() { delete fade_; }
+
 void Tutorial::Initialize() 
 {
-	// 3Dモデルの生成
-	// model_ = Model::CreateFromOBJ("titleFont");
-	// modelPlayer_ = Model::CreateFromOBJ("player");
+	// 3Dモデル
+	model_ = Model::CreateFromOBJ("titleFont");
+	modelPlayer_ = Model::CreateFromOBJ("player");
 
-	// スカイドームの生成
-	modelskydome_ = Model::CreateFromOBJ("skydome", true);
-	skydome_ = new Skydome();
-
-	//modelTutorialUI_ = Model::CreateFromOBJ("TutorialUI");
-
-	// カメラの初期化
+	// カメラ初期化
 	camera_.Initialize();
-	// ワールド変換の初期化
+
 	worldTransform_.Initialize();
 	worldTransformPlayer_.Initialize();
 
-	// フェード
 	fade_ = new Fade();
 	fade_->Initialize();
+
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
 void Tutorial::Update() 
 {
-	switch (phase_)
-	{
+	switch (phase_) {
 	case Phase::kMain:
-		// チュートリアルシーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_E))
-		{
-			// フェードアウト開始
+		if (Input::GetInstance()->PushKey(DIK_E)) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}
 		break;
 	case Phase::kFadeIn:
-		// フェード
 		fade_->Update();
-		if (fade_->IsFinished()) 
-		{
+		if (fade_->isFinished()) {
 			phase_ = Phase::kMain;
 		}
 		break;
 	case Phase::kFadeOut:
-		// フェード
 		fade_->Update();
-		if (fade_->IsFinished())
-		{
+		if (fade_->isFinished()) {
 			finishedTutorial_ = true;
 		}
 		break;
@@ -64,29 +52,17 @@ void Tutorial::Update()
 
 void Tutorial::Draw() 
 {
-	// 3Dモデル描画前処理
-	//Model::PreDraw();
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	// ここに3Dモデルインスタンスの描画処理を記述する
-	// model_->Draw(worldTransform_, camera_);
-	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
+	Model::PreDraw(dxCommon->GetCommandList());
 
-	modelskydome_->Draw(worldTransform_, camera_);
-	//modelTutorialUI_->Draw(worldTransform_, camera_);
-	// 3Dモデル描画後処理
+	model_->Draw(worldTransform_, camera_);
+
+	modelPlayer_->Draw(worldTransformPlayer_, camera_);
+
 	Model::PostDraw();
-	// フェード
+
 	fade_->Draw();
 }
 
-Tutorial::~Tutorial() 
-{
-	// モデル
-	delete model_;
-	delete modelskydome_;
-	delete modelPlayer_;
-	//delete modelTutorialUI_;
-	// フェード
-	delete fade_;
-}
-*/
+
