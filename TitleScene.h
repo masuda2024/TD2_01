@@ -31,9 +31,11 @@ public:
 
 private:
 	
+	bool nextTutorial_ = false;
 
 	// タイトルからゲーム
 	bool finished_ = false;
+	
 	// タイトルからチュートリアル
 	bool finished2_ = false;
 

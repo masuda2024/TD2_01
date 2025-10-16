@@ -29,12 +29,14 @@ void TitleScene::Update() {
 		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
+		
 		}
 
 		//Tキーを押してチュートリアル
 		if (Input::GetInstance()->PushKey(DIK_T)) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
+			nextTutorial_ = true;
 		}
 
 
@@ -50,8 +52,11 @@ void TitleScene::Update() {
 	case Phase::kFadeOut:
 		fade_->Update();
 		if (fade_->isFinished()) {
-			finished_ = true;
-			finished2_ = true;
+			if (nextTutorial_ == true){
+				finished2_ = true;
+			} else{
+				finished_ = true;
+			}
 		}
 		break;
 	}

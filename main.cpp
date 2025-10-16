@@ -105,7 +105,7 @@ void ChangeScene() {
 		}
 		/**/
 		
-		if (titleScene->isFinished2()){
+		else if (titleScene->isFinished2()){
 			// scene変化
 			scene = Scene::kTutorial;
 			// 旧scene開放
