@@ -21,7 +21,7 @@ public:
 
 	KamataEngine::Model* model_;
 	KamataEngine::Model* modelPlayer_;
-
+	KamataEngine::Model* modelBack_;
 	KamataEngine::Camera camera_;
 
 	KamataEngine::WorldTransform worldTransform_;

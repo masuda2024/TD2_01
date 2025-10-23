@@ -8,12 +8,13 @@ using namespace KamataEngine;
 
 Tutorial::~Tutorial() { delete fade_; }
 
-void Tutorial::Initialize() 
-{
+void Tutorial::Initialize() {
 	// 3Dモデル
 	model_ = Model::CreateFromOBJ("titleFont");
 	modelPlayer_ = Model::CreateFromOBJ("player");
-
+	modelBack_ = Model::CreateFromOBJ("Back_UI");
+	
+	
 	// カメラ初期化
 	camera_.Initialize();
 
@@ -26,8 +27,7 @@ void Tutorial::Initialize()
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
-void Tutorial::Update() 
-{
+void Tutorial::Update() {
 	switch (phase_) {
 	case Phase::kMain:
 		if (Input::GetInstance()->PushKey(DIK_E)) {
@@ -50,8 +50,7 @@ void Tutorial::Update()
 	}
 }
 
-void Tutorial::Draw() 
-{
+void Tutorial::Draw() {
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
 	Model::PreDraw(dxCommon->GetCommandList());
@@ -59,6 +58,11 @@ void Tutorial::Draw()
 	model_->Draw(worldTransform_, camera_);
 
 	modelPlayer_->Draw(worldTransformPlayer_, camera_);
+
+
+	modelBack_->Draw(worldTransform_, camera_);
+
+
 
 	Model::PostDraw();
 
