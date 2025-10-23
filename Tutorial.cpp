@@ -1,5 +1,4 @@
-﻿/**/
-#include "Tutorial.h"
+﻿#include "Tutorial.h"
 //#include "MapChipField.h"
 #include "Player.h"
 //#include "Fade.h"
