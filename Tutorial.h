@@ -32,6 +32,11 @@ public:
 	KamataEngine::Model* modelskydome_ = nullptr;
 	Skydome* skydome_ = nullptr;
 
+
+
+	KamataEngine::Model* modelTutorialFont_;
+
+
 	// チュートリアルからタイトル
 	bool isFinishedTutorial() const { return finishedTutorial_; }
 

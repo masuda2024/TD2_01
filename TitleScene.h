@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <KamataEngine.h>
-
+#include "Skydome.h"
 #include "Fade.h"
 class TitleScene {
 public:
@@ -19,7 +19,7 @@ public:
 	KamataEngine::Model* modelPlayer_;
 	KamataEngine::Model* modelTitle_;
 	KamataEngine::Camera camera_;
-
+	KamataEngine::Model* modelSkydome_;
 	KamataEngine::WorldTransform worldTransform_;
 
 	KamataEngine::WorldTransform worldTransformPlayer_;

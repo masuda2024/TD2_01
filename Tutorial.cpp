@@ -9,11 +9,11 @@ Tutorial::~Tutorial() { delete fade_; }
 
 void Tutorial::Initialize() {
 	// 3Dモデル
-	model_ = Model::CreateFromOBJ("titleFont");
-	modelPlayer_ = Model::CreateFromOBJ("player");
+	//model_ = Model::CreateFromOBJ("titleFont");
+	//modelPlayer_ = Model::CreateFromOBJ("player");
 	modelBack_ = Model::CreateFromOBJ("Back_UI");
-	
-	
+	modelskydome_ = Model::CreateFromOBJ("skydome");
+	modelTutorialFont_ = Model::CreateFromOBJ("TutorialFont");
 	// カメラ初期化
 	camera_.Initialize();
 
@@ -54,14 +54,16 @@ void Tutorial::Draw() {
 
 	Model::PreDraw(dxCommon->GetCommandList());
 
-	model_->Draw(worldTransform_, camera_);
+	//model_->Draw(worldTransform_, camera_);
 
-	modelPlayer_->Draw(worldTransformPlayer_, camera_);
+	//modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
 
 	modelBack_->Draw(worldTransform_, camera_);
 
+	modelskydome_->Draw(worldTransform_, camera_);
 
+	modelTutorialFont_->Draw(worldTransform_, camera_);
 
 	Model::PostDraw();
 
