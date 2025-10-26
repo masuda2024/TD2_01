@@ -1,6 +1,6 @@
 #pragma once
 #include "CameraController.h"
-#include "DeathParticles.h"
+#include "Particle.h"
 #include "Enemy.h"
 #include "Fade.h"
 #include "Grab.h"
@@ -50,7 +50,7 @@ public:
 
 	KamataEngine::Model* modelEnemy_ = nullptr;
 
-	KamataEngine::Model* modelDeathParticle_ = nullptr;
+	KamataEngine::Model* modelParticle_ = nullptr;
 
 	KamataEngine::Model* modelGrab_ = nullptr;
 
@@ -73,7 +73,7 @@ public:
 	std::vector<Grab*> grabs_;
 
 	// パーティクル
-	DeathParticles* deathParticles_ = nullptr;
+	Particle* Particle_ = nullptr;
 
 	// カメラコントローラ
 	CameraController* cameraController_ = nullptr;

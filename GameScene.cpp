@@ -15,7 +15,7 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("SkyDome", true);
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
 	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
-	modelDeathParticle_ = Model::CreateFromOBJ("deathParticle", true);
+	modelParticle_ = Model::CreateFromOBJ("deathParticle", true);
 	modelGrab_ = Model::CreateFromOBJ("grab", true);
 	// マップチップフィールドの生成
 	mapChipField_ = new MapChipField;
@@ -29,21 +29,24 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(6, 30);
 
 	// 敵生成
-	for (int32_t i = 0; i < 6; ++i) {
+
+	// 敵座標をマップチップ番号で指定
+	std::vector<KamataEngine::Vector2> enemyTilePositions = {
+	    {10, 30}, // 1つ目
+	};
+
+	// 敵座標をマップチップ番号で指定
+	for (const auto& tilePos : enemyTilePositions) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = {playerPosition.x + 8.0f * (i + 2), playerPosition.y + 1.0f * (i + 2), playerPosition.z};
-
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(static_cast<uint32_t>(tilePos.x), static_cast<uint32_t>(tilePos.y));
+		Vector3 enemySize = {1.0f, 1.0f, 1.0f};
 		newEnemy->Initialize(modelEnemy_, &camera_, enemyPosition);
-
 		enemies_.push_back(newEnemy);
 	}
 
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 
-	// 敵座標をマップチップ番号で指定
-
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(16, 18);
 	// 自キャラの初期化
 	player_->Initialize(modelPlayer_, &camera_, playerPosition);
 
@@ -63,8 +66,8 @@ void GameScene::Initialize() {
 	cameraController_->SetMovableArea(cameraAera);
 
 	// 仮生成パーティクル
-	deathParticles_ = new DeathParticles;
-	deathParticles_->Initialize(modelDeathParticle_, &camera_, playerPosition);
+	Particle_ = new Particle;
+	Particle_->Initialize(modelParticle_, &camera_, playerPosition);
 
 	// つかむ場所のマップチップ番号リスト
 	std::vector<KamataEngine::Vector2> grabTilePositions = {
@@ -164,13 +167,13 @@ void GameScene::ChangePhase() {
 			phase_ = Phase::kDeath;
 
 			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
-			deathParticles_ = new DeathParticles;
-			deathParticles_->Initialize(modelDeathParticle_, &camera_, deathParticlesPosition);
+			Particle_ = new Particle;
+			Particle_->Initialize(modelParticle_, &camera_, deathParticlesPosition);
 		}
 		break;
 	case Phase::kDeath:
 
-		if (deathParticles_->IsFinished()) {
+		if (Particle_->IsFinished()) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}
@@ -205,7 +208,7 @@ void GameScene::Update() {
 
 		break;
 	case Phase::kDeath:
-		deathParticles_->Update();
+		Particle_->Update();
 		break;
 	case Phase::kFadeIn:
 
@@ -217,7 +220,7 @@ void GameScene::Update() {
 		fade_->Update();
 		CheckAllCollisions();
 		if (phase_ == Phase::kFadeOut) {
-			deathParticles_->Update();
+			Particle_->Update();
 		}
 		break;
 	}
@@ -310,8 +313,8 @@ void GameScene::Draw() {
 		goal->Draw(&camera_);
 	}
 
-	if (deathParticles_) {
-		deathParticles_->Draw();
+	if (Particle_) {
+		Particle_->Draw();
 	}
 
 	Model::PostDraw();
@@ -324,7 +327,7 @@ GameScene::~GameScene() {
 	delete debugCamera_;
 	delete modelPlayer_;
 	delete modelEnemy_;
-	delete deathParticles_;
+	delete Particle_;
 	delete fade_;
 	for (Enemy* enemy : enemies_) {
 		delete enemy;
