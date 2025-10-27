@@ -3,6 +3,7 @@
 #include "Particle.h"
 #include "Enemy.h"
 #include "Fade.h"
+#include "Goal.h"
 #include "Grab.h"
 #include "KamataEngine.h"
 #include "MapChipField.h"
@@ -20,6 +21,8 @@ private:
 	bool finished_ = false;
 
 	Grab grab_;
+
+	Goal goal_;
 
 public:
 	enum class Phase {
@@ -50,9 +53,11 @@ public:
 
 	KamataEngine::Model* modelEnemy_ = nullptr;
 
-	KamataEngine::Model* modelParticle_ = nullptr;
+	KamataEngine::Model* modelDeathParticle_ = nullptr;
 
 	KamataEngine::Model* modelGrab_ = nullptr;
+
+	KamataEngine::Model* modelGoal_ = nullptr;
 
 	// ワールドトランスフォーム
 	KamataEngine::WorldTransform worldTransform_;
@@ -73,7 +78,7 @@ public:
 	std::vector<Grab*> grabs_;
 
 	// パーティクル
-	Particle* Particle_ = nullptr;
+	Particle* Particles_ = nullptr;
 
 	// カメラコントローラ
 	CameraController* cameraController_ = nullptr;
