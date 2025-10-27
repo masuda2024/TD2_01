@@ -106,16 +106,21 @@ public:
 
 
 
-	//ゲームクリア
+	
 	bool isFinished() const { return isclear_; }
+	bool isFinished2() const { return isover_; }
 	
+
+private:
+	
+	
+	//ゲームクリア
+	bool nextclear_ = false;
 	bool isclear_ = false;
-	
 	
 
 	// ゲームオーバー
-	bool isFinished2() const { return isover_; }
-	
+	bool nextover_ = false;
 	bool isover_ = false;
 
 

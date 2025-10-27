@@ -156,6 +156,7 @@ void GameScene::CheckAllCollisions() {
 			player_->OnCollision(enemy);
 
 			enemy->OnCollision(player_);
+			
 		}
 	}
 
@@ -237,9 +238,22 @@ void GameScene::Update() {
 
 		CheckAllCollisions();
 
+
+		if (player_->isDead() == true) {
+			phase_ = Phase::kFadeOut;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
+			nextover_ = true;
+		}
+
 		break;
 	case Phase::kDeath:
 		Particles_->Update();
+		
+		
+		
+
+
+
 		break;
 	case Phase::kFadeIn:
 
@@ -252,6 +266,13 @@ void GameScene::Update() {
 		CheckAllCollisions();
 		if (phase_ == Phase::kFadeOut) {
 			Particles_->Update();
+		}
+		if (fade_->isFinished()) {
+			if (nextover_ == true) {
+				isover_ = true;
+			} else if (nextclear_ == true) {
+				isclear_ = true;
+			}
 		}
 		break;
 	}

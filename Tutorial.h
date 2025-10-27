@@ -1,5 +1,4 @@
-﻿/**/
-#pragma once
+﻿#pragma once
 #include "KamataEngine.h"
 
 #include "Fade.h"

@@ -108,6 +108,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	// nullptrの代入
 	gameScene = nullptr;
 
+
+
+
+
+
 	// エンジンの終了処理
 	KamataEngine::Finalize();
 
@@ -225,7 +230,6 @@ void UpdateScene() {
 		break;
 
 
-		/**/
 	case Scene::kTutorial:
 		tutorial->Update();
 		break;
@@ -233,6 +237,16 @@ void UpdateScene() {
 
 	case Scene::kGame:
 		gameScene->Update();
+		break;
+
+
+	case Scene::kGameClear:
+		gameclear->Update();
+		break;
+
+
+	case Scene::kGameOver:
+		gameover->Update();
 		break;
 	}
 }
@@ -244,16 +258,25 @@ void DrawScene() {
 			titleScene->Draw();
 		}
 		break;
-		/**/
 	case Scene::kTutorial:
 		if (tutorial) {
 			tutorial->Draw();
 		}
 		break;
-		
+
 	case Scene::kGame:
 		if (gameScene) {
 			gameScene->Draw();
+		}
+		break;
+	case Scene::kGameClear:
+		if (gameclear) {
+			gameclear->Draw();
+		}
+		break;
+	case Scene::kGameOver:
+		if (gameover) {
+			gameover->Draw();
 		}
 		break;
 	}
