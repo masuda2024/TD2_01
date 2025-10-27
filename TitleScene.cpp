@@ -7,7 +7,7 @@ TitleScene::~TitleScene() { delete fade_; }
 void TitleScene::Initialize() {
 	// 3Dモデル
 	model_ = Model::CreateFromOBJ("titleFont");
-	modelPlayer_ = Model::CreateFromOBJ("player");
+	//modelPlayer_ = Model::CreateFromOBJ("player");
 	modelTitle_ = Model::CreateFromOBJ("Title_UI");
 	modelSkydome_ = Model::CreateFromOBJ("skydome");
 	// カメラ初期化
@@ -71,7 +71,7 @@ void TitleScene::Draw() {
 
 	model_->Draw(worldTransform_, camera_);
 
-	modelPlayer_->Draw(worldTransformPlayer_, camera_);
+	//modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
 	modelTitle_->Draw(worldTransform_, camera_);
 	modelSkydome_->Draw(worldTransform_, camera_);
