@@ -1,4 +1,4 @@
-﻿/*
+﻿/**/
 #pragma once
 #include "KamataEngine.h"
 
@@ -16,51 +16,37 @@ public:
 		kFadeOut, // フェードアウト
 	};
 
-	// 終了フラグ
-	bool finishedGameOver_ = false;
-	// デスフラグのgetter
-	bool IsFinishedGameOver() const { return finishedGameOver_; }
 
 	void Initialize();
 	void Update();
 	void Draw();
-
-	// デストラクタ
 	~GameOver();
-	// void ChangeScene();
-	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_; // stdでエラーが起きたらKamataEngine::をいれる
 
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
 
-	// スプライト
-	KamataEngine::Sprite* sprite_ = nullptr;
+	KamataEngine::Model* model_;
+	KamataEngine::Model* modelPlayer_;
+	KamataEngine::Model* modelBack_;
+	KamataEngine::Camera camera_;
 
-	// 自キャラ
-	Player* player_ = nullptr;
+	KamataEngine::WorldTransform worldTransform_;
 
-	// マップチップフィールド
-	MapChipField* mapChipField_;
+	KamataEngine::WorldTransform worldTransformPlayer_;
 
 	// 天球
 	KamataEngine::Model* modelskydome_ = nullptr;
 	Skydome* skydome_ = nullptr;
 
-private:
-	// 3Dモデルデータ
-	KamataEngine::Model* model_ = nullptr;
-	KamataEngine::Model* modelGameOver_ = nullptr;
+	// KamataEngine::Model* modelOverFont_;
 
-	// モデルプレイヤー
-	KamataEngine::Model* modelPlayer_ = nullptr;
-	// カメラ
-	KamataEngine::Camera camera_;
-	// ワールドトランスフォーム
-	KamataEngine::WorldTransform worldTransform_;
-	KamataEngine::WorldTransform worldTransformPlayer_;
+	// デスフラグのgetter
+	bool IsFinishedOver() const { return finishedOver_; }
+
+private:
+	// 終了フラグ
+	bool finishedOver_ = false;
 
 	// フェード
 	Fade* fade_ = nullptr;
 	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
-};*/
+};

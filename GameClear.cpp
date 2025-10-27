@@ -1,93 +1,71 @@
-﻿/*
-#include "GameClear.h"
+﻿#include "GameClear.h"
 #include "MapChipField.h"
 #include "Skydome.h"
 
 using namespace KamataEngine;
 
-void GameClear::Initialize()
-{
-	// 3Dモデルの生成
+
+GameClear::~GameClear() { delete fade_; }
+
+
+void GameClear::Initialize(){
+	// 3Dモデル
 	// model_ = Model::CreateFromOBJ("titleFont");
 	// modelPlayer_ = Model::CreateFromOBJ("player");
-
-	// スカイドームの生成
-	modelskydome_ = Model::CreateFromOBJ("skydome", true);
-	skydome_ = new Skydome();
-
-	//modelGameClear_ = Model::CreateFromOBJ("GAMECLEARFont");
-	//model_ = Model::CreateFromOBJ("SPACE_UI");
-
-	// カメラの初期化
+	modelBack_ = Model::CreateFromOBJ("Back_UI");
+	modelskydome_ = Model::CreateFromOBJ("skydome");
+	//modelClearFont_ = Model::CreateFromOBJ("TutorialFont");
+	// カメラ初期化
 	camera_.Initialize();
-	// ワールド変換の初期化
+
 	worldTransform_.Initialize();
 	worldTransformPlayer_.Initialize();
 
-	// フェード
 	fade_ = new Fade();
 	fade_->Initialize();
+
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
-void GameClear::Update() 
-{
-	switch (phase_) 
-	{
+void GameClear::Update() {
+	switch (phase_) {
 	case Phase::kMain:
-		// シーンの終了条件
-		if (Input::GetInstance()->PushKey(DIK_SPACE)) 
-		{
-			// フェードアウト開始
+		if (Input::GetInstance()->PushKey(DIK_E)) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}
 		break;
 	case Phase::kFadeIn:
-		// フェード
 		fade_->Update();
-		if (fade_->IsFinished())
-		{
+		if (fade_->isFinished()) {
 			phase_ = Phase::kMain;
 		}
 		break;
 	case Phase::kFadeOut:
-		// フェード
 		fade_->Update();
-		if (fade_->IsFinished())
-		{
-			finishedGameClear_ = true;
+		if (fade_->isFinished()) {
+			finishedClear_ = true;
 		}
 		break;
 	}
 }
 
-void GameClear::Draw() 
-{
-	// 3Dモデル描画前処理
-	//Model::PreDraw();
+void GameClear::Draw() {
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
-	// ここに3Dモデルインスタンスの描画処理を記述する
-	//modelGameClear_->Draw(worldTransform_, camera_);
-	model_->Draw(worldTransform_, camera_);
+	Model::PreDraw(dxCommon->GetCommandList());
 
-	modelskydome_->Draw(worldTransform_, camera_);
+	// model_->Draw(worldTransform_, camera_);
 
 	// modelPlayer_->Draw(worldTransformPlayer_, camera_);
 
-	// 3Dモデル描画後処理
+	modelBack_->Draw(worldTransform_, camera_);
+
+	modelskydome_->Draw(worldTransform_, camera_);
+
+	//modelClearFont_->Draw(worldTransform_, camera_);
+
 	Model::PostDraw();
-	// フェード
+
 	fade_->Draw();
 }
-
-GameClear::~GameClear() 
-{
-	// モデル
-	//delete modelGameClear_;
-	delete model_;
-	//delete modelPlayer_;
-	// フェード
-	delete fade_;
-}
-*/

@@ -30,6 +30,7 @@ public:
 		kPlay,
 		kDeath,
 		kFadeOut,
+		kFadeOut2,
 	};
 
 	// 初期化
@@ -103,9 +104,23 @@ public:
 	// ゲームプレイから開始
 	Phase phase_;
 
-	bool isFinished() const { return finished_; }
 
+
+	//ゲームクリア
+	bool isFinished() const { return isclear_; }
+	
 	bool isclear_ = false;
+	
+	
+
+	// ゲームオーバー
+	bool isFinished2() const { return isover_; }
+	
+	bool isover_ = false;
+
+
+
+
 
 	bool grabbed = false;
 

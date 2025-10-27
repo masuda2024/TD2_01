@@ -170,6 +170,19 @@ void GameScene::CheckAllCollisions() {
 	}
 
 #pragma endregion
+
+#pragma region 自キャラとゴールの当たり判定
+
+
+
+
+
+
+
+
+#pragma endregion
+
+
 }
 
 void GameScene::ChangePhase() {
@@ -201,7 +214,12 @@ void GameScene::ChangePhase() {
 
 	case Phase::kFadeOut:
 		if (fade_->isFinished()) {
-			finished_ = true;
+			isclear_ = true;
+		}
+		break;
+	case Phase::kFadeOut2:
+		if (fade_->isFinished()) {
+			isover_ = true;
 		}
 		break;
 	};
