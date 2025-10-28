@@ -18,6 +18,7 @@ public:
 	KamataEngine::Model* model_;
 	KamataEngine::Model* modelPlayer_;
 	KamataEngine::Model* modelTitle_;
+	KamataEngine::Model* modelCredit_;
 	KamataEngine::Camera camera_;
 	KamataEngine::Model* modelSkydome_;
 	KamataEngine::WorldTransform worldTransform_;

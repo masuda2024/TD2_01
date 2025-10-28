@@ -446,10 +446,19 @@ AABB Player::GetAABB() {
 	return aabb;
 }
 
+
+// プレイヤーと敵
 void Player::OnCollision(const Enemy* enemy) {
 	(void)enemy;
 	// 当たった際の挙動
 	isDead_ = true;
+}
+
+//プレイヤーとゴール
+void Player::OnCollisionGoal(const Goal* goal) {
+	(void)goal; 
+	// 当たった際の挙動
+	isGoal_ = true;
 }
 
 KamataEngine::Vector3 Player::CornerPosition(const KamataEngine::Vector3& center, Corner corner) {

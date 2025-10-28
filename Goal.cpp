@@ -1,11 +1,11 @@
 ﻿#include "Goal.h"
 #include "MyMath.h"
-#include "Player.h"
-#include <cassert>
 
-void Goal::Initialize(const KamataEngine::Vector3& position, const KamataEngine::Vector3& size, KamataEngine::Model* model) {
-	assert(model);
+
+void Goal::Initialize(const KamataEngine::Vector3& position, KamataEngine::Camera* camera, const KamataEngine::Vector3& size, KamataEngine::Model* model) {
+	
 	model_ = model;
+	camera_ = camera;
 	position_ = position;
 	size_ = size;
 	worldTransform_.Initialize();
@@ -19,6 +19,10 @@ void Goal::Update() {
 }
 
 void Goal::Draw(KamataEngine::Camera* camera) { model_->Draw(worldTransform_, *camera); }
+
+
+void Goal::GoalOnCollision(const Player* player) { (void)player; }
+
 
 AABB Goal::GetAABB() const {
 	return AABB{

@@ -31,5 +31,5 @@ private:
 	KamataEngine::WorldTransform worldTransform_; // ワールドトランスふぉーむ
 	KamataEngine::Model* model_ = nullptr;        // モデル
 	KamataEngine::Camera* camera_ = nullptr;      // カメラ
-	;
+	
 };

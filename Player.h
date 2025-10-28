@@ -3,7 +3,7 @@
 #include "MyMath.h"
 
 class Enemy;
-
+class Goal;
 class MapChipField;
 
 class Player {
@@ -107,6 +107,8 @@ public:
 	// 衝突応答
 	void OnCollision(const Enemy* enemy);
 
+	void OnCollisionGoal(const Goal* goal);
+
 	void SetGrab(bool grab) { isGrab_ = grab; }
 	void SetGrabPosition(const KamataEngine::Vector3& pos) { grabPosition_ = pos; }
 	const KamataEngine::Vector3& GetGrabPosition() const { return grabPosition_; }
@@ -114,6 +116,9 @@ public:
 
 	// げった
 	bool isDead() const { return isDead_; }
+
+
+	bool isGoal() const { return isGoal_; }
 
 private:
 	// ワールド変換データ
@@ -141,6 +146,9 @@ private:
 
 	// ですフラグ
 	bool isDead_ = false;
+
+	// ゴールフラグ
+	bool isGoal_ = false;
 
 	KamataEngine::Vector3 grabPosition_;
 };

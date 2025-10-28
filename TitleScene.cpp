@@ -9,6 +9,7 @@ void TitleScene::Initialize() {
 	model_ = Model::CreateFromOBJ("titleFont");
 	//modelPlayer_ = Model::CreateFromOBJ("player");
 	modelTitle_ = Model::CreateFromOBJ("Title_UI");
+	modelCredit_ = Model::CreateFromOBJ("Credit");
 	modelSkydome_ = Model::CreateFromOBJ("skydome");
 	// カメラ初期化
 	camera_.Initialize();
@@ -75,7 +76,7 @@ void TitleScene::Draw() {
 
 	modelTitle_->Draw(worldTransform_, camera_);
 	modelSkydome_->Draw(worldTransform_, camera_);
-
+	modelCredit_->Draw(worldTransform_, camera_);
 	Model::PostDraw();
 
 	fade_->Draw();

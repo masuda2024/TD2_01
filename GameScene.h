@@ -22,7 +22,7 @@ private:
 
 	Grab grab_;
 
-	Goal goal_;
+	//Goal goal_;
 
 public:
 	enum class Phase {
@@ -74,6 +74,9 @@ public:
 
 	// 敵
 	std::list<Enemy*> enemies_;
+
+	//ゴール
+	Goal* goal_ = nullptr;
 
 	// つかむ場所
 	std::vector<Grab*> grabs_;

@@ -58,6 +58,7 @@ void GameScene::Initialize() {
 
 	player_->SetMapChipField(mapChipField_);
 
+
 	// カメラの初期化
 	camera_.Initialize();
 
@@ -74,9 +75,11 @@ void GameScene::Initialize() {
 	Particles_->Initialize(modelDeathParticle_, &camera_, playerPosition);
 
 	// ゴールの初期化
-	Vector3 goalPosition = mapChipField_->GetMapChipPositionByIndex(14,32); //ゴール置く位置 変える
+
+	goal_ = new Goal();
+	Vector3 goalPosition = mapChipField_->GetMapChipPositionByIndex(10,33); //ゴール置く位置 変える(14,7)
 	Vector3 goalSize = {1.0f, 1.0f, 1.0f};
-	goal_.Initialize(goalPosition, goalSize, modelGoal_);
+	goal_->Initialize(goalPosition, &camera_,goalSize, modelGoal_);
 	
 
 	// つかむ場所のマップチップ番号リスト
@@ -175,7 +178,20 @@ void GameScene::CheckAllCollisions() {
 #pragma region 自キャラとゴールの当たり判定
 
 
+	AABB aabb3, aabb4;
 
+	aabb3 = player_->GetAABB();
+
+	
+
+		aabb4 = goal_->GetAABB();
+
+		if (IsCollision(aabb2, aabb4)) {
+		    player_->OnCollisionGoal(goal_);
+
+			goal_->GoalOnCollision(player_);
+		}
+	
 
 
 
@@ -238,12 +254,20 @@ void GameScene::Update() {
 
 		CheckAllCollisions();
 
-
+		//敵に当たった
 		if (player_->isDead() == true) {
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
 			nextover_ = true;
 		}
+
+		//ゴールした
+		if (player_->isGoal() == true) {
+			phase_ = Phase::kFadeOut;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
+			nextclear_ = true;
+		}
+
 
 		break;
 	case Phase::kDeath:
@@ -365,6 +389,9 @@ void GameScene::Draw() {
 		goal->Draw(&camera_);
 	}
 
+
+	goal_->Draw(&camera_);
+
 	if (Particles_) {
 		Particles_->Draw();
 	}
@@ -381,6 +408,8 @@ GameScene::~GameScene() {
 	delete modelEnemy_;
 	delete Particles_;
 	delete fade_;
+	delete modelGoal_;
+
 	for (Enemy* enemy : enemies_) {
 		delete enemy;
 	}
